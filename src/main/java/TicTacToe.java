@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Wulft
+ * @author Wulft & Ethan Morris
  */
 public class TicTacToe 
 {
@@ -17,77 +17,34 @@ public class TicTacToe
     private static final int ROW = 3;
     private static final int COL = 3;
     private static String[][] board = new String[ROW][COL];
-    
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) 
-    {
-       boolean finished = false;
-       boolean playing = true;
-       Scanner in = new Scanner(System.in);
-       String player = "X";
-       int moveCnt = 0;
-       int row = -1;
-       int col = -1;
-       final int MOVES_FOR_WIN = 5;
-       final int MOVES_FOR_TIE = 7;
-       do // program loop
-       {
-           //begin a game
-           player = "X";
-           playing = true;
-           moveCnt = 0;
-           clearBoard();
-           do  // game loop
-           {
-              // get the move
-              do 
-              {
-                
-                display();  
-                System.out.println("Enter move for " + player);
-                row = SafeInput.getRangedInt(in,"Enter row ", 1, 3);
-                col = SafeInput.getRangedInt(in,"Enter col ", 1, 3);
-                row--; col--;  
-              }while(!isValidMove(row, col));
-              board[row][col] = player;
-              moveCnt++;
-              
-              if(moveCnt >= MOVES_FOR_WIN)
-              {
-                  if(isWin(player))
-                  {
-                      display();
-                      System.out.println("Player " + player + " wins!");
-                      playing = false;
-                  }
-              }
-              if(moveCnt >= MOVES_FOR_TIE)
-              {
-                  if(isTie())
-                  {
-                      display();
-                      System.out.println("It's a Tie!");
-                      playing = false;
-                  }
-              }
-              if(player.equals("X"))
-              {
-                  player = "O";
-              }
-              else
-              {
-                  player = "X";
-              }
-              
-           }while(playing);
-           
-           finished = SafeInput.getYNConfirm(in, "Done Playing? ");
-       }while(!finished);
-       
-        
+
+
+    public static void resetGame() {
+        clearBoard();
+    }
+
+    public static boolean makeMove(int row, int col, String player) {
+        if (isValidMove(row, col))
+        {
+            board[row][col] = player;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean checkWin(String player) {
+        return isWin(player);
+    }
+
+    public static boolean checkTie() {
+        return isTie();
+    }
+
+    public static String getCell(int row, int col) {
+        return board[row][col];
     }
     
     private static void clearBoard()
